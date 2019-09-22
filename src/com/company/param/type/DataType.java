@@ -12,13 +12,18 @@ public enum DataType {
         this.description = description;
     }
 
-    public static DataType getValueForParam(String valueDescription) throws DataTypeParameterException {
-        for (DataType value: values()) {
-            if (value.description.equals(valueDescription)) {
-                return value;
+    public static DataType getValueForParam(String valueDescription) {
+        try {
+            for (DataType value: values()) {
+                if (value.description.equals(valueDescription)) {
+                    return value;
+                }
             }
+            throw new DataTypeParameterException("Неверный параметр типа данных: \""+valueDescription+"\"");
+        } catch (DataTypeParameterException ex) {
+            return null;
         }
-        throw new DataTypeParameterException("Неверный параметр типа данных.");
+
     }
 
     public String getDescription() {

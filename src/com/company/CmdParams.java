@@ -1,12 +1,11 @@
 package com.company;
 
-import com.company.exception.DataTypeParameterException;
-import com.company.exception.OrderTypeException;
 import com.company.param.type.DataType;
 import com.company.param.type.OrderType;
 import com.company.param.type.ParamIndexType;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 
 /**
 	* Класс для агрегирования и валидации аргументов командной строки
@@ -23,14 +22,14 @@ public class CmdParams {
     private CmdParams() {}
 
     public static CmdParams getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new CmdParams();
-        }
-        return INSTANCE;
+    		if (INSTANCE == null) {
+    				INSTANCE = new CmdParams();
+    		}
+    		return INSTANCE;
     }
 
-    public void fillCmdParams(String[] args) {
-		    try {
+    public void fillParams(String[] args) {
+
 				    for (int i = 0; i < args.length; i++) {
 						    String arg = args[i];
 						    ParamIndexType index = ParamIndexType.getValueForIndex(i);
@@ -49,8 +48,6 @@ public class CmdParams {
 										    this.setOrderType(OrderType.getValueForDescription(arg));
 						    }
 				    }
-
-		    } catch (DataTypeParameterException | OrderTypeException ignored) {}
     }
 
     public String getFileNameForWriting() {
@@ -82,6 +79,14 @@ public class CmdParams {
     }
 
     private void setFileForReading(File fileForReading) {
-        this.fileForReading = fileForReading;
+				    try {
+						    if (!fileForReading.exists()) {
+								    throw new FileNotFoundException();
+						    }
+						    this.fileForReading = fileForReading;
+				    } catch (FileNotFoundException e) {
+						    System.err.println("\""+fileForReading.getAbsolutePath() + "\" не существует");
+						    System.exit(0);
+				    }
     }
 }

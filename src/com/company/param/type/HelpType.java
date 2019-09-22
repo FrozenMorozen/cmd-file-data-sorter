@@ -1,5 +1,7 @@
 package com.company.param.type;
 
+import com.company.exception.HelpParameterException;
+
 public enum HelpType {
 		SHORT("-h"),
 		FULL("-help");
@@ -10,12 +12,16 @@ public enum HelpType {
 		this.description = description;
 	}
 
-	public static boolean checkValueForParam(String param) {
-		for (HelpType value: values()) {
-				if (value.description.equals(param)) {
-						return true;
-				}
-		}
-		return false;
+	public static boolean checkValue(String param) {
+			try {
+					for (HelpType value: values()) {
+							if (value.description.equals(param)) {
+									return true;
+							}
+					}
+					throw new HelpParameterException("Неверный параметр вызова справки: \""+param+"\"");
+			} catch (HelpParameterException ex) {
+					return false;
+			}
 	}
 }

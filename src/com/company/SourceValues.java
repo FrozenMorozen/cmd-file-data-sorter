@@ -5,7 +5,6 @@ import com.company.exception.EmptyFileDataException;
 import com.company.param.type.DataType;
 import com.company.service.FileHandlerService;
 
-import java.util.Collections;
 import java.util.List;
 
 public class SourceValues {
@@ -22,12 +21,12 @@ public class SourceValues {
     private void validateSourceValues(List<Object> sourceValuesFromFile, DataType dataTypeParam) {
         try {
             // Проверить полноту данных
-            if (sourceValuesFromFile == Collections.EMPTY_LIST) {
+            if (sourceValuesFromFile.size() == 0) {
                 throw new EmptyFileDataException("Исходный файл не содержит данных.");
             }
 
             // Проверка соответствия между типом данных в файле и параметром из аргументов, заданного пользователем
-            DataType actualDataType = getTypeForSorceValues(sourceValuesFromFile);
+            DataType actualDataType = getTypeForSourceValues(sourceValuesFromFile);
             if (!actualDataType.equals(dataTypeParam)) {
                 throw new DataTypeParameterException("Параметр \"" + dataTypeParam.getDescription() + "\" не соответствует типу данных в исходном файле.");
             }
@@ -36,7 +35,7 @@ public class SourceValues {
     }
 
     // Определить тип данных
-    private DataType getTypeForSorceValues(List<Object> sourceValuesFromFile) {
+    private DataType getTypeForSourceValues(List<Object> sourceValuesFromFile) {
         DataType dataType = DataType.STRING;
 
         for (Object element: sourceValuesFromFile) {

@@ -23,14 +23,15 @@ public class AppLauncherServiceImpl implements AppLauncherService {
 
 	@Override
 	public void launch(String[] appParams) {
-			// Если задан всего один параметр и валидация прошла без ошибок - то вызвана справка
-			// Смотрится костыльно конечно, пока ничего лучше не придумал
-			if (validateParamsLength(appParams) == ARGS_HELP_NORMAL_LENGTH) {
+
+			validateParamsLength(appParams.length);
+			if (appParams.length == ARGS_HELP_NORMAL_LENGTH && HelpType.checkValue(appParams[HELP_COMAND_INDEX])) {
+					showHelp();
 					return;
 			}
 
 		CmdParams cmdParams = CmdParams.getInstance();
-		cmdParams.fillCmdParams(appParams);
+		cmdParams.fillParams(appParams);
 
 		SourceValues sourceValues = new SourceValues();
 			sourceValues.initSourceValues(fileHandlerService, cmdParams);
@@ -40,6 +41,7 @@ public class AppLauncherServiceImpl implements AppLauncherService {
 			fileHandlerService.writeDataToFile(sourceValues.getSourceValues(), new File(cmdParams.getFileNameForWriting()));
 	}
 
+	// Переделать
 	private void showHelp() {
 			System.out.println();
 			System.out.println("  Usage:");
@@ -49,17 +51,12 @@ public class AppLauncherServiceImpl implements AppLauncherService {
 			System.out.println();
 	}
 
-	private int validateParamsLength(String[] appParams) {
-			int argsCount = appParams.length;
+	// Валидация количества переданных пользователем параметров
+	private void validateParamsLength(int argsCount) {
 			try {
 					if (argsCount != ARGS_FULL_NORMAL_LENGTH && argsCount != ARGS_HELP_NORMAL_LENGTH) {
 							throw new ArgsLengthException("Неверное количество параметров.");
 					}
 			} catch (ArgsLengthException ignored) {}
-
-			if (argsCount == 1 && HelpType.checkValueForParam(appParams[HELP_COMAND_INDEX]) ) {
-					showHelp();
-			}
-			return argsCount;
 	}
 }

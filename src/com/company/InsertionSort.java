@@ -2,6 +2,9 @@ package com.company;
 
 import java.util.Comparator;
 
+/**
+ * Класс для выполнения сортировки вставками
+ */
 public class InsertionSort implements Comparator {
     @Override
     public int compare(Object o1, Object o2) {

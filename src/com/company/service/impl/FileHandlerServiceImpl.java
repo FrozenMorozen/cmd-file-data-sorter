@@ -12,7 +12,7 @@ public class FileHandlerServiceImpl implements FileHandlerService {
 		public List<Object> readData(File file) {
 				List<Object> fileData = new ArrayList<>();
 
-				try (BufferedReader reader = new BufferedReader(new FileReader(file))){
+				try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
 						while (reader.ready()) {
 								String line = reader.readLine();
 								if (!line.isEmpty()) {
