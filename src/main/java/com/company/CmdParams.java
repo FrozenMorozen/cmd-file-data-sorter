@@ -5,7 +5,6 @@ import com.company.param.type.OrderType;
 import com.company.param.type.ParamIndexType;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 
 /**
 	* Класс для агрегирования и валидации аргументов командной строки
@@ -36,14 +35,19 @@ public class CmdParams {
 
 						    switch (index) {
 								    case SOURCE_FILE_NAME:
-										    this.setFileForReading(new File(arg));
+								    		File fileForReading = new File(arg);
+								    		Validator.checkFileExist(fileForReading);
+										    this.setFileForReading(fileForReading);
 										    continue;
+
 								    case WRITING_FILE_NAME:
 										    this.setFileNameForWriting(arg);
 										    continue;
+
 								    case DATA_TYPE:
 										    this.setDataType(DataType.getValueForParam(arg));
 										    continue;
+
 								    case ORDER_TYPE:
 										    this.setOrderType(OrderType.getValueForDescription(arg));
 						    }
@@ -79,14 +83,6 @@ public class CmdParams {
     }
 
     private void setFileForReading(File fileForReading) {
-				    try {
-						    if (!fileForReading.exists()) {
-								    throw new FileNotFoundException();
-						    }
-						    this.fileForReading = fileForReading;
-				    } catch (FileNotFoundException e) {
-						    System.err.println("\""+fileForReading.getAbsolutePath() + "\" не существует");
-						    System.exit(0);
-				    }
+    		this.fileForReading = fileForReading;
     }
 }
