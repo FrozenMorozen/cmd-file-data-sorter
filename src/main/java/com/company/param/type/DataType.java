@@ -2,6 +2,8 @@ package com.company.param.type;
 
 import com.company.exception.DataTypeParameterException;
 
+import java.util.List;
+
 public enum DataType {
     INTEGER("-i"),
     STRING("-s");
@@ -21,9 +23,26 @@ public enum DataType {
             }
             throw new DataTypeParameterException("Неверный параметр типа данных: \""+valueDescription+"\"");
         } catch (DataTypeParameterException ex) {
-            return null;
+            System.exit(0);
         }
+        return null;
+    }
 
+    // Определить тип данных
+    public static DataType getTypeForSourceValues(List<Object> sourceValuesFromFile) {
+        DataType dataType = DataType.STRING;
+
+        for (Object element: sourceValuesFromFile) {
+            if (element instanceof Integer) {
+                if (!dataType.equals(DataType.INTEGER)) {
+                    dataType = DataType.INTEGER;
+                }
+            } else {
+                dataType = DataType.STRING;
+                break;
+            }
+        }
+        return dataType;
     }
 
     public String getDescription() {

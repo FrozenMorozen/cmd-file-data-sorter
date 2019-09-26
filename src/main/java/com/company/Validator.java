@@ -21,45 +21,23 @@ public class Validator {
         }
     }
 
-    public static void checkFileExist(File file) {
-        try {
-            if (!file.exists()) {
-                throw new FileNotFoundException();
-            }
-        } catch (FileNotFoundException e) {
-            System.err.println("Файл \""+file.getAbsolutePath() + "\" не существует");
-            System.exit(0);
+    public static void checkFileExist(File file) throws FileNotFoundException {
+        if (!file.exists()) {
+            throw new FileNotFoundException();
         }
     }
 
     // Валидация коллекции объектов из исходного файла
-    public static void validateSourceValuesFromFile(List<Object> sourceValuesFromFile, DataType dataTypeParam) throws EmptyFileDataException, DataTypeParameterException{
+    public static void validateSourceValuesFromFile(List<Object> sourceValuesFromFile, DataType dataTypeFromArgs) throws EmptyFileDataException, DataTypeParameterException{
         // Проверить полноту данных
-        if (sourceValuesFromFile.size() == 0) {
+        if (sourceValuesFromFile == null || sourceValuesFromFile.size() == 0) {
             throw new EmptyFileDataException("Исходный файл не содержит данных.");
         }
 
-        // Проверка соответствия между типом данных в файле и параметром из аргументов, заданного пользователем
-        DataType actualDataType = getTypeForSourceValues(sourceValuesFromFile);
-        if (!actualDataType.equals(dataTypeParam)) {
-            throw new DataTypeParameterException("Параметр \"" + dataTypeParam.getDescription() + "\" не соответствует типу данных в исходном файле.");
+        // Проверка соответствия между фактическим типом данных в файле и параметром из аргументов, заданного пользователем
+        DataType actualDataType = DataType.getTypeForSourceValues(sourceValuesFromFile);
+        if (!actualDataType.equals(dataTypeFromArgs)) {
+            throw new DataTypeParameterException("Параметр \"" + dataTypeFromArgs.getDescription() + "\" не соответствует типу данных в исходном файле.");
         }
-    }
-
-    // Определить тип данных
-    private static DataType getTypeForSourceValues(List<Object> sourceValuesFromFile) {
-        DataType dataType = DataType.STRING;
-
-        for (Object element: sourceValuesFromFile) {
-            if (element instanceof Integer) {
-                if (!dataType.equals(DataType.INTEGER)) {
-                    dataType = DataType.INTEGER;
-                }
-            } else {
-                dataType = DataType.STRING;
-                break;
-            }
-        }
-        return dataType;
     }
 }

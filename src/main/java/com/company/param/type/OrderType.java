@@ -22,7 +22,8 @@ public enum OrderType {
             throw new OrderTypeException("Неверный параметр сортировки.");
 
         } catch (OrderTypeException ex) {
-            return null;
+            System.exit(0);
         }
+        return null;
     }
 }

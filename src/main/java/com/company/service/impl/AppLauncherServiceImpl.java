@@ -45,8 +45,8 @@ public class AppLauncherServiceImpl implements AppLauncherService {
 					fileHandlerService.writeDataToFile(readingFileData, new File(cmdParams.getFileNameForWriting()));
 					showSuccessMessage(cmdParams);
 
-			} catch (EmptyFileDataException | ArgsLengthException | DataTypeParameterException ignored) {
-
+			} catch (EmptyFileDataException | ArgsLengthException | DataTypeParameterException ex) {
+					System.exit(0);
 			}
 
 	}

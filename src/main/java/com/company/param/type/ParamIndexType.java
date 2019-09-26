@@ -22,7 +22,9 @@ public enum ParamIndexType {
                 }
             }
             throw new ArgsLengthException("Неверное количество параметров.");
-        } catch (ArgsLengthException ignored) {}
+        } catch (ArgsLengthException ignored) {
+            System.exit(0);
+        }
         return null;
     }
 }

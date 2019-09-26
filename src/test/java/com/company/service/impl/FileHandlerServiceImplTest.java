@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
-import java.util.List;
 
 import static com.company.TestData.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,9 +21,9 @@ class FileHandlerServiceImplTest {
 
 		@Test
 		void readDataForCorrectPath() {
-				File fileForReading = new File(RIGHT_FILE_NAME_FOR_READING);
-				List<Object> readingData = fileHandlerService.readData(fileForReading);
-				assertNotNull(readingData);
+				createTestFile(TEST_FILE_NAME);
+				assertNotNull(fileHandlerService.readData(new File(TEST_FILE_NAME)));
+				deleteTestFile(TEST_FILE_NAME);
 		}
 
 		@Test

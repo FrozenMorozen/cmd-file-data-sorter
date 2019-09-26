@@ -19,9 +19,10 @@ public enum HelpType {
 									return true;
 							}
 					}
-					throw new HelpParameterException("Неверный параметр вызова справки: \""+param+"\"");
+					throw new HelpParameterException("Неверный параметр: \""+param+"\"");
 			} catch (HelpParameterException ex) {
-					return false;
+					System.exit(0);
 			}
+			return false;
 	}
 }
