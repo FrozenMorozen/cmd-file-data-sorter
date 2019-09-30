@@ -1,7 +1,5 @@
 package com.company.param.type;
 
-import com.company.exception.DataTypeParameterException;
-
 import java.util.List;
 
 public enum DataType {
@@ -14,30 +12,21 @@ public enum DataType {
         this.description = description;
     }
 
-    public static DataType getValueForParam(String valueDescription) {
-        try {
+    public static DataType getValueForArg(String valueDescription) {
             for (DataType value: values()) {
                 if (value.description.equals(valueDescription)) {
                     return value;
                 }
             }
-            throw new DataTypeParameterException("Неверный параметр типа данных: \""+valueDescription+"\"");
-        } catch (DataTypeParameterException ex) {
-            System.exit(0);
-        }
         return null;
     }
 
     // Определить тип данных
     public static DataType getTypeForSourceValues(List<Object> sourceValuesFromFile) {
-        DataType dataType = DataType.STRING;
+        DataType dataType = DataType.INTEGER;
 
         for (Object element: sourceValuesFromFile) {
-            if (element instanceof Integer) {
-                if (!dataType.equals(DataType.INTEGER)) {
-                    dataType = DataType.INTEGER;
-                }
-            } else {
+            if (!(element instanceof Integer)) {
                 dataType = DataType.STRING;
                 break;
             }

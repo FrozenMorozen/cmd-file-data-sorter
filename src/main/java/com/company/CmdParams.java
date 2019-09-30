@@ -1,8 +1,10 @@
 package com.company;
 
+import com.company.exception.DataTypeParameterException;
+import com.company.exception.OrderTypeException;
 import com.company.param.type.DataType;
 import com.company.param.type.OrderType;
-import com.company.param.type.ParamIndexType;
+import com.company.param.type.ArgIndexType;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -32,30 +34,51 @@ public class CmdParams {
 
 				    for (int i = 0; i < args.length; i++) {
 						    String arg = args[i];
-						    ParamIndexType index = ParamIndexType.getValueForIndex(i);
+						    ArgIndexType index = ArgIndexType.getValueForIndex(i);
 
 						    switch (index) {
 								    case SOURCE_FILE_NAME:
-								    		File fileForReading = new File(arg);
 										    try {
+												    File fileForReading = new File(arg);
 												    Validator.checkFileExist(fileForReading);
+												    this.setFileForReading(fileForReading);
+												    continue;
+
 										    } catch (FileNotFoundException e) {
 										    		System.err.println("Файл \""+fileForReading.getAbsolutePath() + "\" не существует");
 										    		System.exit(0);
 										    }
-										    this.setFileForReading(fileForReading);
-										    continue;
 
 								    case WRITING_FILE_NAME:
 										    this.setFileNameForWriting(arg);
 										    continue;
 
 								    case DATA_TYPE:
-										    this.setDataType(DataType.getValueForParam(arg));
-										    continue;
+								    		try {
+												    DataType argDataType = DataType.getValueForArg(arg);
+												    if (argDataType == null) {
+														    throw new DataTypeParameterException("Неверный параметр типа данных: \""+arg+"\"");
+												    }
+												    this.setDataType(argDataType);
+												    continue;
+
+										    } catch (DataTypeParameterException ex) {
+												    System.err.println(0);
+										    }
 
 								    case ORDER_TYPE:
-										    this.setOrderType(OrderType.getValueForDescription(arg));
+
+										    try {
+												    OrderType argOrderType = OrderType.getValueForArg(arg);
+												    if (argOrderType == null) {
+														    throw new OrderTypeException("Неверный параметр сортировки: \""+ argOrderType + "\"");
+												    }
+												    this.setOrderType(argOrderType);
+
+										    } catch (OrderTypeException ex) {
+												    System.err.println(0);
+										    }
+
 						    }
 				    }
     }

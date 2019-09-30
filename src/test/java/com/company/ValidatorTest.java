@@ -1,6 +1,5 @@
 package com.company;
 
-import com.company.exception.ArgsLengthException;
 import com.company.exception.DataTypeParameterException;
 import com.company.exception.EmptyFileDataException;
 import com.company.param.type.DataType;
@@ -17,7 +16,7 @@ class ValidatorTest {
 
 		@Test
 		@DisplayName("Валидация 4 параметров запуска")
-		void validateRightFullParamsLength() throws ArgsLengthException {
+		void validateRightFullParamsLength() {
 				assertDoesNotThrow(()->validateParamsLength(ARGS_FULL_NORMAL_LENGTH));
 		}
 

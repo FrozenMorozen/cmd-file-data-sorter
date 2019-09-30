@@ -2,7 +2,7 @@ package com.company.param.type;
 
 import com.company.exception.ArgsLengthException;
 
-public enum ParamIndexType {
+public enum ArgIndexType {
     SOURCE_FILE_NAME(0),
     WRITING_FILE_NAME(1),
     DATA_TYPE(2),
@@ -10,13 +10,13 @@ public enum ParamIndexType {
 
     private int position;
 
-    ParamIndexType(int position) {
+    ArgIndexType(int position) {
         this.position = position;
     }
 
-    public static ParamIndexType getValueForIndex(int index) {
+    public static ArgIndexType getValueForIndex(int index) {
         try {
-            for (ParamIndexType value: values()) {
+            for (ArgIndexType value: values()) {
                 if (value.position == index) {
                     return value;
                 }

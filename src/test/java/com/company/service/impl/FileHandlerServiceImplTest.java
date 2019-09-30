@@ -7,8 +7,7 @@ import org.junit.jupiter.api.Test;
 import java.io.File;
 
 import static com.company.TestData.*;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 class FileHandlerServiceImplTest {
 
@@ -21,9 +20,9 @@ class FileHandlerServiceImplTest {
 
 		@Test
 		void readDataForCorrectPath() {
-				createTestFile(TEST_FILE_NAME);
+				assertNotNull(createTestFile(TEST_FILE_NAME));
 				assertNotNull(fileHandlerService.readData(new File(TEST_FILE_NAME)));
-				deleteTestFile(TEST_FILE_NAME);
+				assertTrue(deleteTestFile(TEST_FILE_NAME));
 		}
 
 		@Test

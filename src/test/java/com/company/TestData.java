@@ -24,9 +24,13 @@ public class TestData {
 
 		public static String TEST_FILE_NAME = "/home/denis/test_file.txt";
 
-		public static List<Object> RIGHT_STRING_LIST_FOR_VALIDATE = createRightList(); // Сделать нормальную иниф=циализацию
+		public static List<Object> RIGHT_STRING_LIST_FOR_VALIDATE = createStringList(); // Сделать нормальную иниф=циализацию
 		public static List<Object> RIGHT_INTEGER_LIST_FOR_VALIDATE = new ArrayList<>(); // Сделать нормальную иниф=циализацию
 		public static List<Object> WRONG_LIST_FOR_VALIDATE = null;
+
+		public static String RIGHT_STRING_DATA_TYPE_ARG = "-s";
+		public static String RIGHT_INTEGER_DATA_TYPE_ARG = "-i";
+		public static String WRONG_DATA_TYPE_ARG = "-psjsjs";
 
 		public static File createTestFile(String fileName) {
 				try {
@@ -46,7 +50,7 @@ public class TestData {
 				}
 		}
 
-		public static List<Object> createRightList() {
+		public static List<Object> createStringList() {
 				List<Object> rightList = new ArrayList<>();
 				rightList.add("ss");
 				rightList.add("aa");
@@ -55,6 +59,18 @@ public class TestData {
 				rightList.add("ff");
 				rightList.add("cc");
 				rightList.add("uuu");
+				return rightList;
+		}
+
+		public static List<Object> createIntegerList() {
+				List<Object> rightList = new ArrayList<>();
+				rightList.add(1);
+				rightList.add(9);
+				rightList.add(5);
+				rightList.add(5);
+				rightList.add(78);
+				rightList.add(0);
+				rightList.add(8);
 				return rightList;
 		}
 }
