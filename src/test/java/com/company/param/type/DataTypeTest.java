@@ -11,8 +11,9 @@ class DataTypeTest {
 		@Test
 		@DisplayName("Получение типизированного параметра типа данных. Для валидного параметра")
 		void getValueForRightArg() {
-				assertNotNull(DataType.getValueForArg(RIGHT_STRING_DATA_TYPE_ARG));
-				assertNotNull(DataType.getValueForArg(RIGHT_INTEGER_DATA_TYPE_ARG));
+				for (DataType value: DataType.values()) {
+						assertNotNull(DataType.getValueForArg(value.getDescription()));
+				}
 		}
 
 		@Test

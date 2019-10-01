@@ -31,6 +31,8 @@ public class TestData {
 		public static String RIGHT_INTEGER_DATA_TYPE_ARG = "-i";
 		public static String WRONG_DATA_TYPE_ARG = "-psjsjs";
 
+		public static String WRONG_ORDER_ARG = "-order";
+
 		public static File createTestFile(String fileName) {
 				try {
 						return new File(String.valueOf(Files.createFile(Paths.get(fileName))));
