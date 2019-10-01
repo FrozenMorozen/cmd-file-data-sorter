@@ -13,15 +13,15 @@ public enum DataType {
     }
 
     public static DataType getValueForArg(String valueDescription) {
-            for (DataType value: values()) {
-                if (value.description.equals(valueDescription)) {
-                    return value;
-                }
-            }
-        return null;
+		    for (DataType value: values()) {
+				    if (value.description.equals(valueDescription)) {
+						    return value;
+				    }
+		    }
+		    return null;
     }
 
-    // Определить тип данных
+    // Определить тип данных для колеекции
     public static DataType getTypeForSourceValues(List<Object> sourceValuesFromFile) {
         DataType dataType = DataType.INTEGER;
 

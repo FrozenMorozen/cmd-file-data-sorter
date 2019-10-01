@@ -12,17 +12,16 @@ public enum HelpType {
 		this.description = description;
 	}
 
-	public static boolean checkValue(String param) {
-			try {
-					for (HelpType value: values()) {
-							if (value.description.equals(param)) {
-									return true;
-							}
+	public static boolean checkValue(String argValue) throws HelpParameterException {
+			for (HelpType value: values()) {
+					if (value.description.equals(argValue)) {
+							return true;
 					}
-					throw new HelpParameterException("Неверный параметр: \""+param+"\"");
-			} catch (HelpParameterException ex) {
-					System.exit(0);
 			}
-			return false;
+			throw new HelpParameterException("Неверный параметр: \"" + argValue + "\"");
 	}
+
+		public String getDescription() {
+				return description;
+		}
 }

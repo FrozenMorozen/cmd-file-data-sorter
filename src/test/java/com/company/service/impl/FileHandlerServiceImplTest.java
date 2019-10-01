@@ -1,10 +1,13 @@
 package com.company.service.impl;
 
+import com.company.TestData;
 import com.company.service.FileHandlerService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.util.List;
 
 import static com.company.TestData.*;
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,16 +22,25 @@ class FileHandlerServiceImplTest {
 		}
 
 		@Test
+		@DisplayName("Корректность чтения данных из файла")
 		void readDataForCorrectPath() {
-				assertNotNull(createTestFile(TEST_FILE_NAME));
-				assertNotNull(fileHandlerService.readData(new File(TEST_FILE_NAME)));
-				assertTrue(deleteTestFile(TEST_FILE_NAME));
+				List<Object> expectedList = createStringList();
+				File fileForReading =createTestFileWithData(TEST_FILE_NAME, expectedList);
+
+				if (fileForReading != null) {
+						List<Object> actualList = fileHandlerService.readData(fileForReading);
+						assertNotNull(actualList);
+						assertEquals(expectedList, actualList);
+
+						assertTrue(deleteTestFile(fileForReading.getAbsolutePath()), "Тестовый файл успешно удалён");
+				}
 		}
 
 		@Test
+		@DisplayName("Корректность записи данных в файл")
 		void writeDataToFile() {
 				File fileForWriting = new File(FILE_NAME_FOR_WRITING);
 				fileHandlerService.writeDataToFile(DATA_FOR_WRITING, fileForWriting);
-				assertEquals(DATA_FOR_WRITING, fileHandlerService.readData(fileForWriting));
+				assertEquals(DATA_FOR_WRITING, TestData.readDataFromTestFile(fileForWriting));
 		}
 }

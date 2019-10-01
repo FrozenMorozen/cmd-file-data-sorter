@@ -1,7 +1,6 @@
 package com.company;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -10,8 +9,8 @@ import java.util.List;
 public class TestData {
 		public static String[] RIGHT_FULL_ARGS = {"/home/denis/source.txt", "/home/denis/out.txt", "-s", "-a"};
 		public static String[] WRONG_FULL_ARGS = {"", ""};
-		public static String[] RIGHT_HELP_ARGS = {"-h"};
-		public static String[] WRONG_HELP_ARGS = {"-hehe"};
+		public static String[] RIGHT_HELP_ARG = {"-h"};
+		public static String WRONG_HELP_ARG = "-hehe";
 
 		public static String RIGHT_FILE_NAME_FOR_READING = "/home/denis/source.txt";
 		public static String WRONG_FILE_NAME = "yuyuddh/home/denis/source.txt";
@@ -38,6 +37,42 @@ public class TestData {
 				} catch (IOException e) {
 						return null;
 				}
+		}
+
+		public static File createTestFileWithData(String fileName, List data) {
+				try {
+						File testFile = new File(String.valueOf(Files.createFile(Paths.get(fileName))));
+						BufferedWriter writer = new BufferedWriter(new FileWriter(testFile));
+						for (int i = 0; i < data.size(); i++) {
+								writer.write((String) data.get(i));
+								if (i != data.size() - 1) {
+										writer.write("\n");
+								}
+						}
+						writer.flush();
+						return testFile;
+
+				} catch (IOException e) {
+						return null;
+				}
+		}
+
+		public static List<Object> readDataFromTestFile(File file) {
+				List<Object> fileData = new ArrayList<>();
+
+				try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+						while (reader.ready()) {
+								String line = reader.readLine();
+								if (!line.isEmpty()) {
+										fileData.add(line);
+								} else {
+										break;
+								}
+						}
+				} catch (IOException ex) {
+						ex.printStackTrace();
+				}
+				return fileData;
 		}
 
 		public static boolean deleteTestFile(String fileName) {

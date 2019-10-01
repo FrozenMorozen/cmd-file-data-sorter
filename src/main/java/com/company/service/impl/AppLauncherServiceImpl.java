@@ -1,11 +1,12 @@
 package com.company.service.impl;
 
-import com.company.CmdParams;
+import com.company.ParamsAggregator;
 import com.company.InsertionSort;
 import com.company.Validator;
 import com.company.exception.ArgsLengthException;
 import com.company.exception.DataTypeParameterException;
 import com.company.exception.EmptyFileDataException;
+import com.company.exception.HelpParameterException;
 import com.company.param.type.HelpType;
 import com.company.service.AppLauncherService;
 import com.company.service.FileHandlerService;
@@ -26,7 +27,6 @@ public class AppLauncherServiceImpl implements AppLauncherService {
 
 	@Override
 	public void launch(String[] appParams) {
-
 			try {
 					Validator.validateParamsLength(appParams.length);
 					if (appParams.length == ARGS_HELP_NORMAL_LENGTH && HelpType.checkValue(appParams[HELP_COMAND_INDEX])) {
@@ -34,26 +34,26 @@ public class AppLauncherServiceImpl implements AppLauncherService {
 							return;
 					}
 
-					CmdParams cmdParams = CmdParams.getInstance();
-					cmdParams.fillParams(appParams);
+					ParamsAggregator paramsAggregator = ParamsAggregator.getInstance();
+					paramsAggregator.fillParams(appParams);
 
-					List<Object> readingFileData = fileHandlerService.readData(cmdParams.getFileForReading());
-					Validator.validateSourceValuesFromFile(readingFileData, cmdParams.getDataType());
+					List<Object> readingFileData = fileHandlerService.readData(paramsAggregator.getFileForReading());
+					Validator.validateSourceValuesFromFile(readingFileData, paramsAggregator.getDataType());
 
 					Collections.sort(readingFileData, new InsertionSort());
 
-					fileHandlerService.writeDataToFile(readingFileData, new File(cmdParams.getFileNameForWriting()));
-					showSuccessMessage(cmdParams);
+					fileHandlerService.writeDataToFile(readingFileData, new File(paramsAggregator.getFileNameForWriting()));
+					showSuccessMessage(paramsAggregator);
 
-			} catch (EmptyFileDataException | ArgsLengthException | DataTypeParameterException ex) {
+			} catch (EmptyFileDataException | ArgsLengthException | DataTypeParameterException | HelpParameterException ex) {
 					System.exit(0);
 			}
 
 	}
 
-		private void showSuccessMessage(CmdParams cmdParams) {
+		private void showSuccessMessage(ParamsAggregator paramsAggregator) {
 			StringBuilder successInfo = new StringBuilder();
-			switch (cmdParams.getDataType()) {
+			switch (paramsAggregator.getDataType()) {
 					case STRING:
 							successInfo.append("Строковые");
 							break;
@@ -61,10 +61,12 @@ public class AppLauncherServiceImpl implements AppLauncherService {
 							successInfo.append("Целочисленные");
 							break;
 			}
-				successInfo.append(" данные из файла \"").append(cmdParams.getFileForReading().getAbsolutePath())
-												.append("\" успешно записаны в файл \"").append(cmdParams.getFileNameForWriting()).append("\" с сортировкой ");
+				successInfo.append(" данные из файла: \"")
+												.append(paramsAggregator.getFileForReading().getAbsolutePath())
+												.append("\" успешно записаны в файл: \"").append(paramsAggregator.getFileNameForWriting())
+												.append("\" с сортировкой ");
 
-				switch (cmdParams.getOrderType()) {
+				switch (paramsAggregator.getOrderType()) {
 						case ASC:
 								successInfo.append("по возрастанию");
 								break;

@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.exception.ArgsLengthException;
 import com.company.exception.DataTypeParameterException;
 import com.company.exception.OrderTypeException;
 import com.company.param.type.DataType;
@@ -12,20 +13,20 @@ import java.io.FileNotFoundException;
 /**
 	* Класс для агрегирования и валидации аргументов командной строки
 	*/
-public class CmdParams {
+public class ParamsAggregator {
 
-    private static CmdParams INSTANCE;
+    private static ParamsAggregator INSTANCE;
 
     private File fileForReading;
     private String fileNameForWriting;
     private DataType dataType;
     private OrderType orderType;
 
-    private CmdParams() {}
+    private ParamsAggregator() {}
 
-    public static CmdParams getInstance() {
+    public static ParamsAggregator getInstance() {
     		if (INSTANCE == null) {
-    				INSTANCE = new CmdParams();
+    				INSTANCE = new ParamsAggregator();
     		}
     		return INSTANCE;
     }
@@ -34,27 +35,25 @@ public class CmdParams {
 
 				    for (int i = 0; i < args.length; i++) {
 						    String arg = args[i];
-						    ArgIndexType index = ArgIndexType.getValueForIndex(i);
 
-						    switch (index) {
-								    case SOURCE_FILE_NAME:
-										    try {
+						    try {
+								    ArgIndexType index = ArgIndexType.getNameForArgIndex(i);
+								    if (index == null) {
+										    throw new ArgsLengthException("Неверное количество параметров.");
+								    }
+
+								    switch (index) {
+										    case SOURCE_FILE_NAME:
 												    File fileForReading = new File(arg);
 												    Validator.checkFileExist(fileForReading);
 												    this.setFileForReading(fileForReading);
 												    continue;
 
-										    } catch (FileNotFoundException e) {
-										    		System.err.println("Файл \""+fileForReading.getAbsolutePath() + "\" не существует");
-										    		System.exit(0);
-										    }
+										    case WRITING_FILE_NAME:
+												    this.setFileNameForWriting(arg);
+												    continue;
 
-								    case WRITING_FILE_NAME:
-										    this.setFileNameForWriting(arg);
-										    continue;
-
-								    case DATA_TYPE:
-								    		try {
+										    case DATA_TYPE:
 												    DataType argDataType = DataType.getValueForArg(arg);
 												    if (argDataType == null) {
 														    throw new DataTypeParameterException("Неверный параметр типа данных: \""+arg+"\"");
@@ -62,23 +61,18 @@ public class CmdParams {
 												    this.setDataType(argDataType);
 												    continue;
 
-										    } catch (DataTypeParameterException ex) {
-												    System.err.println(0);
-										    }
-
-								    case ORDER_TYPE:
-
-										    try {
+										    case ORDER_TYPE:
 												    OrderType argOrderType = OrderType.getValueForArg(arg);
 												    if (argOrderType == null) {
-														    throw new OrderTypeException("Неверный параметр сортировки: \""+ argOrderType + "\"");
+														    throw new OrderTypeException("Неверный параметр сортировки: \""+ arg + "\"");
 												    }
 												    this.setOrderType(argOrderType);
-
-										    } catch (OrderTypeException ex) {
-												    System.err.println(0);
-										    }
-
+								    }
+						    } catch (ArgsLengthException | OrderTypeException | DataTypeParameterException ex) {
+								    System.err.println(0);
+						    } catch (FileNotFoundException e) {
+								    System.err.println("Файл \""+fileForReading.getAbsolutePath() + "\" не существует");
+								    System.exit(0);
 						    }
 				    }
     }

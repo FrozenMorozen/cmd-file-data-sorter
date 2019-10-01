@@ -6,7 +6,7 @@ class AppLauncherServiceImplTest {
 
 		@Test
 		void launch() {
-//				assert new AppLauncherServiceImpl().launch(RIGHT_HELP_ARGS);
+//				assert new AppLauncherServiceImpl().launch(RIGHT_HELP_ARG);
 //				ass
 		}
 }
