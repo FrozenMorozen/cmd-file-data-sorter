@@ -15,7 +15,7 @@ class ParamsAggregatorTest {
 		@Test
 		@DisplayName("Корректность заполнения агрегатора параметров")
 		void fillParams() {
-				File fileForReading =createTestFile(TEST_FILE_NAME);
+				File fileForReading =createTestFile(FILE_NAME_FOR_CREATING);
 
 				if (fileForReading != null) {
 						// Создать массив с корректными аргументами

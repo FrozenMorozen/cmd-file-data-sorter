@@ -15,6 +15,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ValidatorTest {
 
+		public static int WRONG_FULL_ARGS_LENGTH = 48;
+
 		@Test
 		@DisplayName("Валидация 4 параметров запуска")
 		void validateRightFullParamsLength() {
@@ -29,15 +31,15 @@ class ValidatorTest {
 
 		@Test
 		@DisplayName("Ошибка валидации неверного количества параметров запуска")
-		void validateWrongFullParamsLength() {
-				assertThrows(Exception.class, ()-> validateParamsLength(TestData.WRONG_FULL_ARGS_LENGTH));
+		void validateWrongParamsLength() {
+				assertThrows(Exception.class, ()-> validateParamsLength(WRONG_FULL_ARGS_LENGTH));
 		}
 
 		@Test
 		@DisplayName("Валидация существующего файла для чтения")
 		void checkRightFileExist() {
-				File testFile = createTestFile(TEST_FILE_NAME);
-				assertDoesNotThrow(()->checkFileExist(new File(TEST_FILE_NAME)));
+				File testFile = createTestFile(FILE_NAME_FOR_CREATING);
+				assertDoesNotThrow(()->checkFileExist(new File(FILE_NAME_FOR_CREATING)));
 				deleteTestFile(testFile);
 		}
 

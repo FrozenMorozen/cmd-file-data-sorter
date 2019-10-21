@@ -12,37 +12,37 @@ import com.company.service.AppLauncherService;
 import com.company.service.FileHandlerService;
 
 import java.io.File;
+import java.util.Comparator;
 import java.util.List;
 
 import static com.company.Validator.ARGS_HELP_NORMAL_LENGTH;
 
 public class AppLauncherServiceImpl implements AppLauncherService {
 
-		//    @Inject
-//    private FileHandlerService fileHandlerService;
 		private static FileHandlerService fileHandlerService = new FileHandlerServiceImpl();
+		private static Comparator comparator = new InsertionSort();
 
 		private static int HELP_COMAND_INDEX = 0;
 
 	@Override
-	public void launch(String[] appParams) {
+	public void launch(String[] args) {
 			try {
-					Validator.validateParamsLength(appParams.length);
-					if (appParams.length == ARGS_HELP_NORMAL_LENGTH && HelpType.checkValue(appParams[HELP_COMAND_INDEX])) {
+					Validator.validateParamsLength(args.length);
+					if (args.length == ARGS_HELP_NORMAL_LENGTH && HelpType.checkValue(args[HELP_COMAND_INDEX])) {
 							showHelp();
 							return;
 					}
 
-					ParamsAggregator paramsAggregator = ParamsAggregator.getInstance();
-					paramsAggregator.fillParams(appParams);
+					ParamsAggregator params = ParamsAggregator.getInstance();
+					params.fillParams(args);
 
-					List<Object> readingFileData = fileHandlerService.readData(paramsAggregator.getFileForReading());
-					Validator.validateSourceValuesFromFile(readingFileData, paramsAggregator.getDataType());
+					List<Object> fileData = fileHandlerService.readData(params.getFileForReading());
+					Validator.validateSourceValuesFromFile(fileData, params.getDataType());
 
-					readingFileData.sort(new InsertionSort());
+					fileData.sort(comparator);
 
-					fileHandlerService.writeDataToFile(readingFileData, new File(paramsAggregator.getFileNameForWriting()));
-					showSuccessMessage(paramsAggregator);
+					fileHandlerService.writeDataToFile(fileData, new File(params.getFileNameForWriting()));
+					showSuccessMessage(params);
 
 			} catch (EmptyFileDataException | ArgsLengthException | DataTypeParameterException | HelpParameterException ex) {
 					System.exit(0);

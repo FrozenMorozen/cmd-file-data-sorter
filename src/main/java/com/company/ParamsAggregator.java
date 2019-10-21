@@ -43,8 +43,8 @@ public class ParamsAggregator {
 
     public void fillParams(String[] args) {
 
-				    for (int i = 0; i < args.length; i++) {
-						    String arg = args[i];
+    		for (int i = 0; i < args.length; i++) {
+    				String arg = args[i];
 
 						    try {
 								    ArgIndexType index = ArgIndexType.getNameForArgIndex(i);
@@ -80,8 +80,9 @@ public class ParamsAggregator {
 								    }
 						    } catch (ArgsLengthException | OrderTypeException | DataTypeParameterException ex) {
 								    System.err.println(0);
+
 						    } catch (FileNotFoundException e) {
-								    System.err.println("Файл \""+fileForReading.getAbsolutePath() + "\" не существует");
+								    System.err.println("Файл \"" + arg + "\" не существует");
 								    System.exit(0);
 						    }
 				    }

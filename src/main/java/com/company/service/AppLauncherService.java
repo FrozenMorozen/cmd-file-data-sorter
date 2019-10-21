@@ -7,12 +7,8 @@ public interface AppLauncherService {
 
 	/**
 	 * Запустить приложение
-	 * @param appParams параметры приложения
+	 * @param args параметры приложения
 	 */
-	void launch(String[] appParams);
+	void launch(String[] args);
 
-	// Фейковый метод для теста
-	default void fakeLaunch(String[] appParams) {
-
-	}
 }
