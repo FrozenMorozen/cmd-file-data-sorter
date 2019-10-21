@@ -12,8 +12,6 @@ public class TestData {
 		public static String[] RIGHT_HELP_ARG = {"-h"};
 		public static String WRONG_HELP_ARG = "-hehe";
 
-		public static String RIGHT_FILE_NAME_FOR_READING = "/home/denis/source.txt";
-		public static String WRONG_FILE_NAME = "yuyuddh/home/denis/source.txt";
 
 		public static String FILE_NAME_FOR_WRITING = "/home/denis/out.txt";
 		public static List<Object> DATA_FOR_WRITING = new ArrayList<>(); // Сделать нормальную иниф=циализацию
@@ -22,10 +20,6 @@ public class TestData {
 		public static int WRONG_HELP_ARGS_LENGTH = 132;
 
 		public static String TEST_FILE_NAME = "/home/denis/test_file.txt";
-
-		public static List<Object> RIGHT_STRING_LIST_FOR_VALIDATE = createStringList(); // Сделать нормальную иниф=циализацию
-		public static List<Object> RIGHT_INTEGER_LIST_FOR_VALIDATE = new ArrayList<>(); // Сделать нормальную иниф=циализацию
-		public static List<Object> WRONG_LIST_FOR_VALIDATE = null;
 
 		public static String RIGHT_STRING_DATA_TYPE_ARG = "-s";
 		public static String RIGHT_INTEGER_DATA_TYPE_ARG = "-i";
@@ -77,13 +71,14 @@ public class TestData {
 				return fileData;
 		}
 
-		public static boolean deleteTestFile(String fileName) {
+		public static void deleteTestFile(File file) {
 				try {
-						Files.delete(Paths.get(fileName));
-						return true;
+						if (file != null) {
+								Files.delete(Paths.get(file.getAbsolutePath()));
+						}
 
 				} catch (IOException e) {
-						return false;
+						e.printStackTrace();
 				}
 		}
 

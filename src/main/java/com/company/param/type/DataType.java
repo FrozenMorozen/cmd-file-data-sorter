@@ -1,11 +1,14 @@
 package com.company.param.type;
 
+import lombok.Getter;
+
 import java.util.List;
 
 public enum DataType {
     INTEGER("-i"),
     STRING("-s");
 
+    @Getter
     private String description;
 
     DataType(String description) {
@@ -34,7 +37,4 @@ public enum DataType {
         return dataType;
     }
 
-    public String getDescription() {
-        return description;
-    }
 }

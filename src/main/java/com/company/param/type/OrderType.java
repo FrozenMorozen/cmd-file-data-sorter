@@ -1,9 +1,13 @@
 package com.company.param.type;
 
+import lombok.Getter;
+
+
 public enum OrderType {
 		ASC("-a"),
 		DESC("-d");
 
+		@Getter
 		private String description;
 
 		OrderType(String description) {
@@ -19,7 +23,4 @@ public enum OrderType {
 				return null;
 		}
 
-		public String getDescription() {
-				return description;
-		}
 }

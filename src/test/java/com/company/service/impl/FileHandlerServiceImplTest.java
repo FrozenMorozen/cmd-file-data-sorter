@@ -31,9 +31,9 @@ class FileHandlerServiceImplTest {
 						List<Object> actualList = fileHandlerService.readData(fileForReading);
 						assertNotNull(actualList);
 						assertEquals(expectedList, actualList);
-
-						assertTrue(deleteTestFile(fileForReading.getAbsolutePath()), "Тестовый файл успешно удалён");
 				}
+
+				deleteTestFile(fileForReading);
 		}
 
 		@Test

@@ -1,7 +1,7 @@
 package com.company.service.impl;
 
-import com.company.ParamsAggregator;
 import com.company.InsertionSort;
+import com.company.ParamsAggregator;
 import com.company.Validator;
 import com.company.exception.ArgsLengthException;
 import com.company.exception.DataTypeParameterException;
@@ -12,7 +12,6 @@ import com.company.service.AppLauncherService;
 import com.company.service.FileHandlerService;
 
 import java.io.File;
-import java.util.Collections;
 import java.util.List;
 
 import static com.company.Validator.ARGS_HELP_NORMAL_LENGTH;
@@ -40,7 +39,7 @@ public class AppLauncherServiceImpl implements AppLauncherService {
 					List<Object> readingFileData = fileHandlerService.readData(paramsAggregator.getFileForReading());
 					Validator.validateSourceValuesFromFile(readingFileData, paramsAggregator.getDataType());
 
-					Collections.sort(readingFileData, new InsertionSort());
+					readingFileData.sort(new InsertionSort());
 
 					fileHandlerService.writeDataToFile(readingFileData, new File(paramsAggregator.getFileNameForWriting()));
 					showSuccessMessage(paramsAggregator);
@@ -87,6 +86,5 @@ public class AppLauncherServiceImpl implements AppLauncherService {
 			System.out.println("   -d descending sort or -a ascending sort");
 			System.out.println();
 	}
-
 
 }

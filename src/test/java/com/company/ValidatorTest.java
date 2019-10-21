@@ -7,6 +7,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import java.io.File;
+import java.util.List;
 
 import static com.company.TestData.*;
 import static com.company.Validator.*;
@@ -29,48 +30,50 @@ class ValidatorTest {
 		@Test
 		@DisplayName("Ошибка валидации неверного количества параметров запуска")
 		void validateWrongFullParamsLength() {
-				assertThrows(Exception.class, ()-> validateParamsLength(WRONG_FULL_ARGS_LENGTH));
+				assertThrows(Exception.class, ()-> validateParamsLength(TestData.WRONG_FULL_ARGS_LENGTH));
 		}
 
 		@Test
 		@DisplayName("Валидация существующего файла для чтения")
 		void checkRightFileExist() {
-				assertNotNull(createTestFile(TEST_FILE_NAME));
+				File testFile = createTestFile(TEST_FILE_NAME);
 				assertDoesNotThrow(()->checkFileExist(new File(TEST_FILE_NAME)));
-				assertTrue(deleteTestFile(TEST_FILE_NAME));
+				deleteTestFile(testFile);
 		}
 
 		@Test
 		@DisplayName("Ошибка при валидации несуществующего файла для чтения")
 		void checkWrongFileExist() {
-				assertThrows(Exception.class, ()-> checkFileExist(new File(WRONG_FILE_NAME)));
+				assertThrows(Exception.class, ()-> checkFileExist(new File("njdnjnd/sdsdd/sd/dsds/sdsd")));
 		}
 
 		@Test
-		@DisplayName("Валидация корректной коллекции данных, считанных из файла")
+		@DisplayName("Валидация корректных  данных, считанных из файла")
 		void validateRightSourceValuesFromFile() {
-				assertNotNull(RIGHT_STRING_LIST_FOR_VALIDATE);
-				assertTrue(RIGHT_STRING_LIST_FOR_VALIDATE.size() != 0);
-				assertEquals(DataType.STRING, DataType.getTypeForSourceValues(RIGHT_STRING_LIST_FOR_VALIDATE));
+				List<Object> testStringList = TestData.createStringList();
+				assertNotNull(testStringList);
+				assertTrue(testStringList.size() != 0);
+				assertEquals(DataType.STRING, DataType.getTypeForSourceValues(testStringList));
 
-				assertDoesNotThrow(()->validateSourceValuesFromFile(RIGHT_STRING_LIST_FOR_VALIDATE, DataType.STRING));
+				assertDoesNotThrow(()->validateSourceValuesFromFile(testStringList, DataType.STRING));
 		}
 
 		@Test
 		@DisplayName("Ошибка при валидации пустой коллекции")
 		void validateWrongSourceValues() {
-				assertNull(WRONG_LIST_FOR_VALIDATE);
-				assertThrows(EmptyFileDataException.class, ()->validateSourceValuesFromFile(WRONG_LIST_FOR_VALIDATE, DataType.STRING));
+				List<Object> wrongTestList = null;
+				assertThrows(EmptyFileDataException.class, ()->validateSourceValuesFromFile(wrongTestList, DataType.STRING));
 		}
 
 		@Test
 		@DisplayName("Ошибка при валидации коллекции не соответсвующей типу данных из параметров запуска")
 		void validateWrongDataTypeForSourceValues() {
+				List<Object> testStringList = TestData.createStringList();
 				DataType dataTypeFromArgs = DataType.INTEGER;
-				assertNotNull(RIGHT_STRING_LIST_FOR_VALIDATE);
-				assertTrue(RIGHT_STRING_LIST_FOR_VALIDATE.size() != 0);
-				assertNotEquals(dataTypeFromArgs, DataType.getTypeForSourceValues(RIGHT_STRING_LIST_FOR_VALIDATE));
+				assertNotNull(testStringList);
+				assertTrue(testStringList.size() != 0);
+				assertNotEquals(dataTypeFromArgs, DataType.getTypeForSourceValues(testStringList));
 
-				assertThrows(DataTypeParameterException.class, ()->validateSourceValuesFromFile(RIGHT_STRING_LIST_FOR_VALIDATE, dataTypeFromArgs));
+				assertThrows(DataTypeParameterException.class, ()->validateSourceValuesFromFile(testStringList, dataTypeFromArgs));
 		}
 }

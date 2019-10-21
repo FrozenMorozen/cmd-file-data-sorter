@@ -3,9 +3,11 @@ package com.company;
 import com.company.exception.ArgsLengthException;
 import com.company.exception.DataTypeParameterException;
 import com.company.exception.OrderTypeException;
+import com.company.param.type.ArgIndexType;
 import com.company.param.type.DataType;
 import com.company.param.type.OrderType;
-import com.company.param.type.ArgIndexType;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -15,12 +17,20 @@ import java.io.FileNotFoundException;
 	*/
 public class ParamsAggregator {
 
-    private static ParamsAggregator INSTANCE;
+		private static ParamsAggregator INSTANCE;
 
-    private File fileForReading;
-    private String fileNameForWriting;
-    private DataType dataType;
-    private OrderType orderType;
+		@Getter
+		@Setter
+		private File fileForReading;
+		@Getter
+		@Setter
+		private String fileNameForWriting;
+		@Getter
+		@Setter
+		private DataType dataType;
+		@Getter
+		@Setter
+		private OrderType orderType;
 
     private ParamsAggregator() {}
 
@@ -77,35 +87,4 @@ public class ParamsAggregator {
 				    }
     }
 
-    public String getFileNameForWriting() {
-        return fileNameForWriting;
-    }
-
-    private void setFileNameForWriting(String fileForWriting) {
-        this.fileNameForWriting = fileForWriting;
-    }
-
-    public DataType getDataType() {
-        return dataType;
-    }
-
-    private void setDataType(DataType dataType) {
-        this.dataType = dataType;
-    }
-
-    public OrderType getOrderType() {
-        return orderType;
-    }
-
-    private void setOrderType(OrderType order) {
-        this.orderType = order;
-    }
-
-    public File getFileForReading() {
-        return fileForReading;
-    }
-
-    private void setFileForReading(File fileForReading) {
-    		this.fileForReading = fileForReading;
-    }
 }

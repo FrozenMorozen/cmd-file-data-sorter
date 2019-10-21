@@ -1,12 +1,14 @@
 package com.company.param.type;
 
 import com.company.exception.HelpParameterException;
+import lombok.Getter;
 
 public enum HelpType {
 		SHORT("-h"),
 		FULL("-help");
 
-	private String description;
+		@Getter
+		private String description;
 
 	HelpType(String description) {
 		this.description = description;
@@ -21,7 +23,4 @@ public enum HelpType {
 			throw new HelpParameterException("Неверный параметр: \"" + argValue + "\"");
 	}
 
-		public String getDescription() {
-				return description;
-		}
 }
